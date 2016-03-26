@@ -10,10 +10,11 @@ var mySchema = {
         "manufacturer-base": {
             "type": "object",
             "properties": {
+                "name": { "type": "string" },
                 "id": { "type": "string" },
                 "description": { "type": "string" },
             },
-            "required": ["id", "description"]
+            "required": ["name", "id", "description"]
         },
 
         // Subclass which adds a channel property
