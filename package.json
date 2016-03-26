@@ -1,0 +1,10 @@
+{
+    "name": "JsonSchemaSubclass",
+    "version": "1.0.0",
+    "description": "JsonSchema Subclassing",
+    "author": "Broward Horne",
+    "license": "UNLICENSED",
+    "dependencies": {
+        "jsonschema": "^1.0.2"
+    }
+}
