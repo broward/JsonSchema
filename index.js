@@ -34,42 +34,45 @@ var mySchema = {
             ]
         },
 
-        // Subclass which adds a location array 
-        "nike": {
+        // abstract subclass of abstract class which adds location
+        "nike-abstract": {
             "allOf": [
                 { "$ref": "#/definitions/manufacturer-base" }, {
                     "properties": {
-                        "name": {
+                        "location": {
                             "type": {
-                                "enum": ["nike"]
+                                "enum": ["US", "CH", "FR", "EN"]
                             }
-                        },
-                        "locations": {
-                            "type": "array",
-                            "minItems": 1,
-                            "items": {
-                                "type": {
-                                    "enum": ["USA", "England", "Brazil"]
-                                },
-                            },
-                        },
+                        }
                     },
-                    "required": ["locations"]
+                    "required": ["location"]
                 }
             ]
         },
 
-        // Subclass of abstract class
-        "the north face": {
+        
+
+        // extended subclass which adds channel
+        "nike-extended": {
             "allOf": [
-                { "$ref": "#/definitions/manufacturer-base" }, {
+                { "$ref": "#/definitions/nike-abstract" }, {
                     "properties": {
                         "name": {
                             "type": {
-                                "enum": ["the north face"]
+                                "enum": ["nike-extended"]
                             }
-                        }
-                    }
+                        },
+                        "channel": {
+                            "type": "array",
+                            "minItems": 1,
+                            "items": {
+                                "type": {
+                                    "enum": ["retail", "wholesale"]
+                                },
+                            },
+                        },
+                    },
+                    "required": ["channel"]
                 }
             ]
         },
@@ -79,7 +82,7 @@ var mySchema = {
             "oneOf": [
                 { "$ref": "#/definitions/outdoor research" },
                 { "$ref": "#/definitions/nike" },
-                { "$ref": "#/definitions/the north face" }
+                { "$ref": "#/definitions/nike-extended" }
             ]
         },
 
@@ -89,18 +92,18 @@ var mySchema = {
             "properties": {
                 "name": { "type": "string" },
                 "id": { "type": "string" },
-                "manufacturer-bases": {
+                "manufacturers": {
                     "type": "array",
                     "minItems": 0,
                     "items": {
                         "type": {
-                            "$ref": "#/definitions/manufacturer"
+                            "$ref": "#/definitions/manufacturer-base"
                         }
                     }
                 }
             },
             "additionalProperties": false,
-            "required": ["name", "id", "manufacturer-bases"]
+            "required": ["name", "id", "manufacturers"]
         }
     },
 
@@ -123,7 +126,7 @@ var myData = {
     "retailers": [{
         "name": "rei",
         "id": "23",
-        "manufacturer-bases": [{
+        "manufacturers": [{
             "name": "outdoor research",
             "id": "1",
             "description": "Outdoor Research #1",
@@ -132,29 +135,32 @@ var myData = {
             "name": "nike",
             "id": "2",
             "description": "Nike #1",
-            "locations": ["Brazil"]
+            "location": "US"
         }, {
-            "name": "the north face",
+            "name": "nike-extended",
             "id": "3",
-            "description": "North Face #1"
+            "description": "Nike Extended #1",
+            "location": "US",
+            "channel": ["retail"]
         }]
     }, {
         "name": "columbia",
         "id": "24",
-        "manufacturer-bases": [{
+        "manufacturers": [{
             "name": "outdoor research",
             "id": "1",
             "description": "Outdoor Research #2",
             "channel": "residential"
         }, {
-            "name": "the north face",
-            "id": "3",
-            "description": "North Face #2"
+            "name": "nike",
+            "id": "2",
+            "description": "Nike #2",
+            "location": "FR"
         }]
     }, {
         "name": "amazon",
         "id": "25",
-        "manufacturer-bases": [{
+        "manufacturers": [{
             "name": "outdoor research",
             "id": "1",
             "description": "Outdoor Research #3",
@@ -162,8 +168,8 @@ var myData = {
         }, {
             "name": "nike",
             "id": "2",
-            "description": "Nike #2",
-            "locations": ["USA", "England"]
+            "description": "Nike #3",
+            "location": "EN"
         }]
     }]
 }
